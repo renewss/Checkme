@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
 import IconDashboard from '@material-ui/icons/Dashboard';
 import { Redirect } from 'react-router-dom';
