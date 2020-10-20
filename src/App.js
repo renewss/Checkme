@@ -1,26 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
+import Login from './components/Login';
+import Home from './components/Home';
+import Cookie from './utils/Cookies';
 
-function App() {
+// function ProtectedRoute({ children, ...rest }) {
+//   return <Route {...rest} render={() => (authSession.isAuthed ? children : <Redirect to="/login" />)} />;
+// }
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Protect path="/home">
+          <Home />
+        </Protect>
+        {/* {!Cookie.get('auth') && <Redirect to="/login" />} */}
+        <Route path="/">
+          <Redirect to="/login"></Redirect>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
-export default App;
+function Protect({ children, ...rest }) {
+  return <Route {...rest} render={() => (!!Cookie.get('auth') ? children : <Redirect to="/login" />)} />;
+}
